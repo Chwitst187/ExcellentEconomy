@@ -40,6 +40,12 @@ public class CoinsEnginePlugin extends NightPlugin {
 
     @Override
     public void enable() {
+        if (!this.hasVaultSupport()) {
+            this.error("Vault dependency is missing. CoinsEngine can not be enabled without Vault.");
+            this.getPluginManager().disablePlugin(this);
+            return;
+        }
+
         this.dataHandler = new DataHandler(this);
         this.userManager = new UserManager(this, this.currencyRegistry, this.dataHandler);
         this.currencyManager = new CurrencyManager(this, this.currencyRegistry, this.dataHandler, this.userManager);
@@ -67,6 +73,20 @@ public class CoinsEnginePlugin extends NightPlugin {
 
         if (Plugins.isInstalled(HookPlugin.DELUXE_COINFLIP)) {
             this.runTask(task -> DeluxeCoinflipHook.setup(this));
+        }
+    }
+
+    private boolean hasVaultSupport() {
+        if (!Plugins.isInstalled(HookPlugin.VAULT)) {
+            return false;
+        }
+
+        try {
+            Class.forName("net.milkbowl.vault.economy.Economy", false, this.getClassLoader());
+            return true;
+        }
+        catch (ClassNotFoundException | LinkageError exception) {
+            return false;
         }
     }
 
