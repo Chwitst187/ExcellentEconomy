@@ -277,16 +277,16 @@ public class CurrencyManager extends AbstractManager<CoinsEnginePlugin> {
             if (currency == null) {
                 Collection<Currency> currencies = this.registry.getCurrencies();
 
-                Lang.RESET_ALL_STARTED_GLOBAL.message().send(sender);
+                this.plugin.runTask(ignored -> Lang.RESET_ALL_STARTED_GLOBAL.message().send(sender));
                 this.dataHandler.resetBalances(currencies);
                 this.userManager.getLoaded().forEach(user -> user.resetBalance(currencies));
-                Lang.RESET_ALL_COMPLETED_GLOBAL.message().send(sender);
+                this.plugin.runTask(ignored -> Lang.RESET_ALL_COMPLETED_GLOBAL.message().send(sender));
             }
             else {
-                Lang.RESET_ALL_STARTED_CURRENCY.message().send(sender, replacer -> replacer.replace(currency.replacePlaceholders()));
+                this.plugin.runTask(ignored -> Lang.RESET_ALL_STARTED_CURRENCY.message().send(sender, replacer -> replacer.replace(currency.replacePlaceholders())));
                 this.dataHandler.resetBalances(currency);
                 this.userManager.getLoaded().forEach(user -> user.resetBalance(currency));
-                Lang.RESET_ALL_COMPLETED_CURRENCY.message().send(sender, replacer -> replacer.replace(currency.replacePlaceholders()));
+                this.plugin.runTask(ignored -> Lang.RESET_ALL_COMPLETED_CURRENCY.message().send(sender, replacer -> replacer.replace(currency.replacePlaceholders())));
             }
             this.allowOperations();
         });

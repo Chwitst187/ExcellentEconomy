@@ -98,9 +98,9 @@ public class MigrationManager extends SimpleManager<CoinsEnginePlugin> {
 
         this.plugin.runTaskAsync(task -> {
             this.currencyManager.disableOperations();
-            Lang.MIGRATION_STARTED.message().send(sender, replacer -> replacer.replace(Placeholders.GENERIC_NAME, migrator.getName()));
+            this.plugin.runTask(ignored -> Lang.MIGRATION_STARTED.message().send(sender, replacer -> replacer.replace(Placeholders.GENERIC_NAME, migrator.getName())));
             this.migrate(migrator, currency);
-            Lang.MIGRATION_COMPLETED.message().send(sender, replacer -> replacer.replace(Placeholders.GENERIC_NAME, migrator.getName()));
+            this.plugin.runTask(ignored -> Lang.MIGRATION_COMPLETED.message().send(sender, replacer -> replacer.replace(Placeholders.GENERIC_NAME, migrator.getName())));
             this.currencyManager.allowOperations();
         });
 
