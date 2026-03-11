@@ -67,7 +67,7 @@ public class TopManager extends AbstractManager<CoinsEnginePlugin> {
         }
 
         this.loadCommands();
-        this.plugin.addGlobalPlaceholders(new ServerBalancePlaceholders(this));
+        this.plugin.addGlobalPlaceholders(new ServerBalancePlaceholders(this.currencyRegistry, this));
         this.plugin.addGlobalPlaceholders(new TopBalancePlaceholders(this.currencyRegistry, this));
 
         this.addListener(new TopListener(this.plugin, this));
