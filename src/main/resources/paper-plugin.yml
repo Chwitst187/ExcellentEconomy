@@ -5,6 +5,7 @@ author: NightExpress
 desciption: Unlimited virtual currencies and server economy.
 load: STARTUP
 api-version: 1.21
+folia-supported: true
 dependencies:
   server:
     nightcore:
