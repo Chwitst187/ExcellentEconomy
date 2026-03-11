@@ -6,6 +6,7 @@ import su.nightexpress.coinsengine.config.Lang;
 import su.nightexpress.coinsengine.currency.CurrencyRegistry;
 import su.nightexpress.coinsengine.tops.TopEntry;
 import su.nightexpress.coinsengine.tops.TopManager;
+import su.nightexpress.coinsengine.util.placeholder.PlaceholderRegistryCompat;
 import su.nightexpress.nightcore.bridge.placeholder.PlaceholderProvider;
 import su.nightexpress.nightcore.bridge.placeholder.PlaceholderRegistry;
 import su.nightexpress.nightcore.util.Numbers;
@@ -26,7 +27,7 @@ public class TopBalancePlaceholders implements PlaceholderProvider {
 
     @Override
     public void addPlaceholders(@NonNull PlaceholderRegistry registry) {
-        registry.registerMapped("leaderboard_position", ExcellentCurrency.class, (player, currency) -> {
+        PlaceholderRegistryCompat.registerCurrencyMapped(registry, this.currencyRegistry, "leaderboard_position", (player, currency) -> {
             return Optional.ofNullable(this.manager.getTopEntry(currency, player.getName())).map(TopEntry::getPosition).map(String::valueOf).orElse("?");
         });
 
@@ -45,7 +46,7 @@ public class TopBalancePlaceholders implements PlaceholderProvider {
     }
 
     private void addTopPlaceholder(@NonNull PlaceholderRegistry registry, @NonNull String key, @NonNull TopEntryPlaceholder placeholder) {
-        registry.registerRaw(key, (player, payload) -> {
+        PlaceholderRegistryCompat.registerRaw(registry, key, (player, payload) -> {
             int index = payload.indexOf('_');
             if (index < 0) return null;
 

@@ -4,6 +4,7 @@ import org.jspecify.annotations.NonNull;
 import su.nightexpress.excellenteconomy.api.currency.ExcellentCurrency;
 import su.nightexpress.coinsengine.currency.CurrencyManager;
 import su.nightexpress.coinsengine.currency.CurrencyRegistry;
+import su.nightexpress.coinsengine.util.placeholder.PlaceholderRegistryCompat;
 import su.nightexpress.nightcore.bridge.placeholder.PlaceholderProvider;
 import su.nightexpress.nightcore.bridge.placeholder.PlaceholderRegistry;
 import su.nightexpress.nightcore.core.config.CoreLang;
@@ -21,37 +22,35 @@ public class PlayerBalancePlaceholders implements PlaceholderProvider {
 
     @Override
     public void addPlaceholders(@NonNull PlaceholderRegistry registry) {
-        registry.addResolver(ExcellentCurrency.class, (player, payload) -> this.currencyRegistry.getById(payload));
-        
-        registry.registerMapped("payments_state", ExcellentCurrency.class, (player, currency) -> {
+        PlaceholderRegistryCompat.registerCurrencyMapped(registry, this.currencyRegistry, "payments_state", (player, currency) -> {
             return CoreLang.STATE_ENABLED_DISALBED.get(this.manager.getPaymentsState(player, currency));
         });
 
-        registry.registerMapped("balance_short_clean", ExcellentCurrency.class, (player, currency) -> {
+        PlaceholderRegistryCompat.registerCurrencyMapped(registry, this.currencyRegistry, "balance_short_clean", (player, currency) -> {
             return NightMessage.stripTags(currency.formatCompact(this.manager.getBalance(player, currency)));
         });
 
-        registry.registerMapped("balance_short_legacy", ExcellentCurrency.class, (player, currency) -> {
+        PlaceholderRegistryCompat.registerCurrencyMapped(registry, this.currencyRegistry, "balance_short_legacy", (player, currency) -> {
             return NightMessage.asLegacy(currency.formatCompact(this.manager.getBalance(player, currency)));
         });
 
-        registry.registerMapped("balance_short", ExcellentCurrency.class, (player, currency) -> {
+        PlaceholderRegistryCompat.registerCurrencyMapped(registry, this.currencyRegistry, "balance_short", (player, currency) -> {
             return currency.formatCompact(this.manager.getBalance(player, currency));
         });
 
-        registry.registerMapped("balance_clean", ExcellentCurrency.class, (player, currency) -> {
+        PlaceholderRegistryCompat.registerCurrencyMapped(registry, this.currencyRegistry, "balance_clean", (player, currency) -> {
             return NightMessage.stripTags(currency.format(this.manager.getBalance(player, currency)));
         });
 
-        registry.registerMapped("balance_legacy", ExcellentCurrency.class, (player, currency) -> {
+        PlaceholderRegistryCompat.registerCurrencyMapped(registry, this.currencyRegistry, "balance_legacy", (player, currency) -> {
             return NightMessage.asLegacy(currency.format(this.manager.getBalance(player, currency)));
         });
 
-        registry.registerMapped("balance_raw", ExcellentCurrency.class, (player, currency) -> {
+        PlaceholderRegistryCompat.registerCurrencyMapped(registry, this.currencyRegistry, "balance_raw", (player, currency) -> {
             return currency.formatRaw(this.manager.getBalance(player, currency));
         });
 
-        registry.registerMapped("balance", ExcellentCurrency.class, (player, currency) -> {
+        PlaceholderRegistryCompat.registerCurrencyMapped(registry, this.currencyRegistry, "balance", (player, currency) -> {
             return currency.format(this.manager.getBalance(player, currency));
         });
     }
