@@ -24,11 +24,11 @@ repositories {
 
 dependencies {
     compileOnly("io.papermc.paper:paper-api:26.1.2.build.+")
-    compileOnly("com.github.MilkBowl:VaultAPI:1.7") {
+    compileOnly("com.github.MilkBowl:VaultAPI:1.7.1") {
         exclude(group = "org.bukkit", module = "bukkit")
     }
-    compileOnly("su.nightexpress.nightcore:main:2.15.1")
-    compileOnly("me.clip:placeholderapi:2.11.6")
+    compileOnly("su.nightexpress.nightcore:main:2.16.3")
+    compileOnly("me.clip:placeholderapi:2.12.3")
     compileOnly("org.black_ixx:playerpoints:3.0.0")
 }
 
