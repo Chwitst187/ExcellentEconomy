@@ -33,11 +33,11 @@ public class EssentialsMigrator extends Migrator {
 
         for (UUID uuid : essentials.getUserMap().getAllUniqueUsers()) {
             try {
-                com.earth2me.essentials.User user = essentials.getUser(uuid);
+                OfflinePlayer offlinePlayer = this.plugin.getServer().getOfflinePlayer(uuid);
+                com.earth2me.essentials.User user = essentials.getUserMap().load(offlinePlayer);
                 if (user != null) {
                     BigDecimal money = user.getMoney();
                     if (money != null) {
-                        OfflinePlayer offlinePlayer = this.plugin.getServer().getOfflinePlayer(uuid);
                         balances.put(offlinePlayer, money.doubleValue());
                     }
                 }
