@@ -17,5 +17,7 @@ dependencies:
       required: false
     PlayerPoints:
       required: false
+    Essentials:
+      required: false
     DeluxeCoinflip:
       required: false

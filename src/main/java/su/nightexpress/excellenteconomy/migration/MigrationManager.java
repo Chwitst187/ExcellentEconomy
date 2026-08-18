@@ -126,10 +126,13 @@ public class MigrationManager extends SimpleManager<EconomyPlugin> {
             if (user == null) {
                 user = this.userManager.create(uuid, name);
                 this.userManager.getDataAccessor().insert(user);
+            } else {
+                this.userManager.getDataAccessor().update(user);
             }
 
             user.setBalance(currency, amount);
             user.markDirty();
+            this.plugin.info("Migrated balance for player " + name + ": " + amount + " " + currency.getId());
             count.getAndIncrement();
         });
         return count.get();
