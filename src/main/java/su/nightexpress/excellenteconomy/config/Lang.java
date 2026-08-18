@@ -105,7 +105,7 @@ public class Lang implements LangContainer {
         DARK_GRAY.wrap(STRIKETHROUGH.wrap("-".repeat(32))),
         GRAY.wrap("[" + GREEN.wrap("→") + "] Data Migration:"),
         " ",
-        GRAY.wrap("Finished data migration from " + WHITE.wrap(GENERIC_NAME) + "!"),
+        GRAY.wrap("Finished data migration from " + WHITE.wrap(GENERIC_NAME) + "! (Imported: " + WHITE.wrap(GENERIC_COUNT) + " users)"),
         " ",
         GREEN.wrap(UNDERLINED.wrap("All currency operations are enabled again.")),
         DARK_GRAY.wrap(STRIKETHROUGH.wrap("-".repeat(32)))
@@ -368,3 +368,4 @@ public class Lang implements LangContainer {
 
     public static final TextLocale OTHER_NO_TOP_ENTRY = LangEntry.builder("Other.NoTopEntry").text("<none>");
 }
+

@@ -15,6 +15,7 @@ import su.nightexpress.excellenteconomy.currency.CurrencyRegistry;
 import su.nightexpress.excellenteconomy.hook.HookPlugin;
 import su.nightexpress.excellenteconomy.migration.command.MigrationCommand;
 import su.nightexpress.excellenteconomy.migration.impl.PlayerPointsMigrator;
+import su.nightexpress.excellenteconomy.migration.impl.EssentialsMigrator;
 import su.nightexpress.excellenteconomy.user.CoinsUser;
 import su.nightexpress.excellenteconomy.user.UserManager;
 import su.nightexpress.nightcore.manager.SimpleManager;
@@ -51,6 +52,7 @@ public class MigrationManager extends SimpleManager<EconomyPlugin> {
         this.commandManager.addPluginCommand(MigrationCommand.create(this.currencyRegistry, this));
 
         this.registerMigrator(HookPlugin.PLAYER_POINTS, () -> new PlayerPointsMigrator(this.plugin));
+        this.registerMigrator(HookPlugin.ESSENTIALS, () -> new EssentialsMigrator(this.plugin));
 
         // Schedule to ensure 3rd party economy plugins are loaded.
         this.plugin.runTask(() -> {
@@ -102,17 +104,19 @@ public class MigrationManager extends SimpleManager<EconomyPlugin> {
             this.currencyManager.disableOperations();
             Lang.MIGRATION_STARTED.message().sendWith(sender, builder -> builder.with(EconomyPlaceholders.GENERIC_NAME,
                 migrator::getName));
-            this.migrate(migrator, currency);
-            Lang.MIGRATION_COMPLETED.message().sendWith(sender, builder -> builder.with(
-                EconomyPlaceholders.GENERIC_NAME, migrator::getName));
+            int count = this.migrate(migrator, currency);
+            Lang.MIGRATION_COMPLETED.message().sendWith(sender, builder -> builder
+                .with(EconomyPlaceholders.GENERIC_NAME, migrator::getName)
+                .with(EconomyPlaceholders.GENERIC_COUNT, () -> String.valueOf(count)));
             this.currencyManager.allowOperations();
         });
 
         return true;
     }
 
-    public void migrate(@NonNull Migrator migrator, @NonNull ExcellentCurrency currency) {
+    public int migrate(@NonNull Migrator migrator, @NonNull ExcellentCurrency currency) {
         Map<OfflinePlayer, Double> balances = migrator.getBalances(currency);
+        java.util.concurrent.atomic.AtomicInteger count = new java.util.concurrent.atomic.AtomicInteger();
         balances.forEach((player, amount) -> {
             String name = player.getName();
             if (name == null) return;
@@ -126,7 +130,9 @@ public class MigrationManager extends SimpleManager<EconomyPlugin> {
 
             user.setBalance(currency, amount);
             user.markDirty();
+            count.getAndIncrement();
         });
+        return count.get();
     }
 
     @NonNull

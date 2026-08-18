@@ -20,6 +20,7 @@ repositories {
     maven("https://jitpack.io")
     maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
     maven("https://repo.rosewooddev.io/repository/public/")
+    maven("https://repo.essentialsx.net/releases/")
 }
 
 dependencies {
@@ -30,6 +31,7 @@ dependencies {
     compileOnly("su.nightexpress.nightcore:main:2.16.3")
     compileOnly("me.clip:placeholderapi:2.12.3")
     compileOnly("org.black_ixx:playerpoints:3.0.0")
+    compileOnly("net.essentialsx:EssentialsX:2.20.1") { exclude(group = "org.spigotmc", module = "spigot-api") }
 }
 
 tasks {
@@ -67,3 +69,5 @@ publishing {
         }
     }
 }
+
+

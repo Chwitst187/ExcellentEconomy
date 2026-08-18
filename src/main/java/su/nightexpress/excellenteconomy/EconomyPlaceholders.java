@@ -15,6 +15,7 @@ public class EconomyPlaceholders {
     public static final String GENERIC_MAX           = "%max%";
     public static final String GENERIC_POS           = "%pos%";
     public static final String GENERIC_STATE         = "%state%";
+    public static final String GENERIC_COUNT         = "%count%";
     public static final String GENERIC_ENTRY         = "%entry%";
     public static final String GENERIC_NEXT_PAGE     = "%next_page%";
     public static final String GENERIC_PREVIOUS_PAGE = "%previous_page%";
@@ -33,3 +34,4 @@ public class EconomyPlaceholders {
         .with(CURRENCY_LABEL, currency -> currency.getCommandAliases()[0])
         .build();
 }
+
